@@ -38,7 +38,7 @@ namespace ZooKeeperWebApi.Controllers
 
         public string Put(Guid id, Animal animal)
         {
-            if (zooKeeperDb.Animals.Any(x => x.Id == id))
+            if (!zooKeeperDb.Animals.Any(x => x.Id == id))
             {
                 return "NOTFOUND";
             }

@@ -7,18 +7,20 @@
 <body>
     <h1>Zoo Application</h1>
     <h2>Zoo Keeper</h2>
-    <h3>Get</h3>
+    <h3>Get Animal</h3>
     <div id="get-animal">
     </div>
-    <h3>Post</h3>
+    <h3>Post Animal</h3>
     <div id="post-animal">
     </div>
-    <h3>Put</h3>
+    <h3>Put Animal</h3>
     <div id="put-animal">
     </div>
-    <h3>Delete</h3>
+    <h3>Delete Animal</h3>
     <div id="delete-animal">
     </div>
+    <h3>Get Animals</h3>
+    <ul id="animals-list"></ul>
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
 
@@ -38,13 +40,34 @@
             document.getElementById("delete-animal").innerHTML = responseText;
         }
 
-        function getAnimal(id, callBack)
+        function getAnimalsCallBack(responseText) {
+
+            var animalModels = JSON.parse(responseText);
+            var animalsList = document.getElementById("animals-list");
+
+            for (var i = 0; i < animalModels.length; i++)
+            {
+                var animalModel = animalModels[i];
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(animalModel.Name));
+                animalsList.appendChild(li);
+            }
+        }
+
+        function getRequest(url)
         {
             var request = new XMLHttpRequest();
-            request.open("GET", baseAddress + "api/Animal/" + id, false);
+            request.open("GET", url, false);
             request.send();
 
-            callBack(request.responseText);
+            return request.responseText;
+        }
+
+        function getAnimal(id, callBack)
+        {
+            var url =  baseAddress + "api/Animal/" + id;
+            var responseText = getRequest(url);
+            callBack(responseText);
         }
 
         function postAnimal(callBack)
@@ -58,7 +81,7 @@
                 }
             };
 
-            request.send(JSON.stringify({ name: 'AnimalNamePOST', dateofbirth: "2012-04-23" }));
+            request.send(JSON.stringify({ name: 'AnimalNamePOST' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
         }
 
         function putAnimal(id, callBack)
@@ -83,19 +106,25 @@
             callBack(request.responseText);
         }
 
+        function getAnimals(callBack) {
+            var url = baseAddress + "api/Animals/";
+            var responseText = getRequest(url);
+            callBack(responseText);
+        }
+
         postAnimal(postAnimalCallBack);
 
-        var animalId = "98c375a5-eec8-4f8d-90e1-e80a8b3385cd";
+        //var animalId = "d4b14895-d1a1-4c6d-ab29-84bc992aed1f";
 
-        getAnimal(animalId, getAnimalCallBack);
+        //getAnimal(animalId, getAnimalCallBack);
 
-        putAnimal(animalId, putAnimalCallBack);
+        //putAnimal(animalId, putAnimalCallBack);
 
-        getAnimal(animalId, getAnimalCallBack);
+        //getAnimal(animalId, getAnimalCallBack);
 
-        deleteAnimal(animalId, deleteAnimalCallBack);
+        //deleteAnimal(animalId, deleteAnimalCallBack);
         
-
+        getAnimals(getAnimalsCallBack);
 
 
     </script>
