@@ -16,6 +16,9 @@
     <h3>Put</h3>
     <div id="put-animal">
     </div>
+    <h3>Delete</h3>
+    <div id="delete-animal">
+    </div>
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
 
@@ -31,11 +34,14 @@
             document.getElementById("put-animal").innerHTML = responseText;
         }
 
+        function deleteAnimalCallBack(responseText) {
+            document.getElementById("delete-animal").innerHTML = responseText;
+        }
 
         function getAnimal(id, callBack)
         {
             var request = new XMLHttpRequest();
-            request.open("get", baseAddress + "api/Animal/" + id, false);
+            request.open("GET", baseAddress + "api/Animal/" + id, false);
             request.send();
 
             callBack(request.responseText);
@@ -67,7 +73,14 @@
             };
 
             request.send(JSON.stringify({ name: 'AnimalNamePUT' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
+        }
 
+        function deleteAnimal(id, callBack) {
+            var request = new XMLHttpRequest();
+            request.open("DELETE", baseAddress + "api/Animal/" + id, false);
+            request.send();
+
+            callBack(request.responseText);
         }
 
         postAnimal(postAnimalCallBack);
@@ -79,6 +92,8 @@
         putAnimal(animalId, putAnimalCallBack);
 
         getAnimal(animalId, getAnimalCallBack);
+
+        deleteAnimal(animalId, deleteAnimalCallBack);
         
 
 
