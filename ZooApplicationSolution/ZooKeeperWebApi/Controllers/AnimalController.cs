@@ -12,9 +12,10 @@ namespace ZooKeeperWebApi.Controllers
     {
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
 
-        public Animal Get(Guid id = default(Guid))
+        public Animal Get(Guid id)
         {
-            var animal = zooKeeperDb.Animals.FirstOrDefault();
+            var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
+
             return animal;
         }
 
@@ -31,8 +32,16 @@ namespace ZooKeeperWebApi.Controllers
 
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
             zooKeeperDb.SaveChanges();
-            return animal.Id.ToString();
 
+            return animal.Name + ", " + animal.DateOfBirth.ToString();
+        }
+
+        public string Put(Guid id, Animal animal)
+        {
+            animal.Id = id;
+            zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Modified;
+
+            return animal.Name + ", " + animal.DateOfBirth.ToString();
         }
     }
 }

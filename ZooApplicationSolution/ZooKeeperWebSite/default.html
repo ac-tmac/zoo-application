@@ -7,9 +7,14 @@
 <body>
     <h1>Zoo Application</h1>
     <h2>Zoo Keeper</h2>
+    <h3>Get</h3>
     <div id="get-animal">
     </div>
+    <h3>Post</h3>
     <div id="post-animal">
+    </div>
+    <h3>Put</h3>
+    <div id="put-animal">
     </div>
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
@@ -21,6 +26,11 @@
         function postAnimalCallBack(responseText) {
             document.getElementById("post-animal").innerHTML = responseText;
         }
+
+        function putAnimalCallBack(responseText) {
+            document.getElementById("put-animal").innerHTML = responseText;
+        }
+
 
         function getAnimal(id, callBack)
         {
@@ -42,14 +52,34 @@
                 }
             };
 
-            request.send(JSON.stringify({ name: 'AnimalName', dateofbirth: "2012-04-23" }));
+            request.send(JSON.stringify({ name: 'AnimalNamePOST', dateofbirth: "2012-04-23" }));
+        }
+
+        function putAnimal(id, callBack)
+        {
+            var request = new XMLHttpRequest();
+            request.open("PUT", baseAddress + "api/Animal/" + id)
+            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.onload = function () {
+                if (request.status === 200) {
+                    callBack(request.responseText);
+                }
+            };
+
+            request.send(JSON.stringify({ name: 'AnimalNamePUT' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
+
         }
 
         postAnimal(postAnimalCallBack);
 
-        var animalId = "00000000-0000-0000-0000-000000000000";
+        var animalId = "98c375a5-eec8-4f8d-90e1-e80a8b3385cd";
 
         getAnimal(animalId, getAnimalCallBack);
+
+        putAnimal(animalId, putAnimalCallBack);
+
+        getAnimal(animalId, getAnimalCallBack);
+        
 
 
 
