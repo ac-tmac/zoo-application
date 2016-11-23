@@ -38,10 +38,28 @@ namespace ZooKeeperWebApi.Controllers
 
         public string Put(Guid id, Animal animal)
         {
+            if (zooKeeperDb.Animals.Any(x => x.Id == id))
+            {
+                return "NOTFOUND";
+            }
+
             animal.Id = id;
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Modified;
-
+            zooKeeperDb.SaveChanges();
             return animal.Name + ", " + animal.DateOfBirth.ToString();
+        }
+
+        public string Delete(Guid id)
+        {
+            var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
+            if (animal == null)
+            {
+                return id.ToString();
+            }
+
+            zooKeeperDb.Animals.Remove(animal);
+            zooKeeperDb.SaveChanges();
+            return "REMOVED";
         }
     }
 }
