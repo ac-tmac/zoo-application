@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <h1>Zoo Application</h1>
+    <h2>Zoo Keeper</h2>
+    <div id="Animal">
+    </div>
+    <script type="text/javascript">
+        var baseAddress = "http://localhost:59255/";
+
+        function getAnimalCallBack(responseText) {
+            document.getElementById("Animal").innerHTML = responseText;
+        }
+
+        function getAnimal(id, callBack)
+        {
+            var request = new XMLHttpRequest();
+            request.open("get", baseAddress + "api/Animal/" + id, false);
+            request.send();
+
+            callBack(request.responseText);
+        }
+
+        var animalId;
+        getAnimal(animalId, getAnimalCallBack);
+    </script>
+</body>
+</html>
