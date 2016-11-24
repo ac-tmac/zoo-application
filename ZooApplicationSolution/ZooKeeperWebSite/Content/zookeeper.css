@@ -1,0 +1,22 @@
+﻿#animal-form-view, #animal-form-feedback, #animals-view {
+    visibility: hidden;
+}
+
+#animal-form-view, #animals-view {
+    width: 50%;
+    float: left;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+input {
+    margin-bottom: 0.42em;
+}
+
+input, label {
+    display: block;
+}

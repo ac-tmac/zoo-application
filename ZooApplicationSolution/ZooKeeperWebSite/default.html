@@ -1,131 +1,43 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-	<meta charset="utf-8" />
+    <title>Zoo Application | Zoo Keeper</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="Content/zookeeper.css" media="screen" />
 </head>
 <body>
-    <h1>Zoo Application</h1>
-    <h2>Zoo Keeper</h2>
-    <h3>Get Animal</h3>
-    <div id="get-animal">
+    <h1>Zoo Application | Zoo Keeper</h1>
+    <div id="animals-view">
+        <h2>Animals</h2>
+        <button type="button" id="animal-add-new-button">Add New</button>
+        <ul id="animals-list"></ul>
     </div>
-    <h3>Post Animal</h3>
-    <div id="post-animal">
+    <div id="animal-form-view">
+        <h2>Animal</h2>
+        <!--
+        <p id="animal-form-feedback">
+        </p>
+        -->
+        <form id="animal-form">
+            <fieldset>
+                <input type="hidden" id="animal-form-id" />
+                <label for="animal-form-name">Name</label>
+                <input id="animal-form-name" name="animal-form-name" type="text" />
+                <label for="animal-form-date-of-birth">Date of Birth</label>
+                <input id="animal-form-date-of-birth" name="animal-form-date-of-birth" type="date" />
+            </fieldset>
+            <button type="button" id="animal-form-save-button">Save</button>
+            <button type="button" id="animal-form-delete-button">Delete</button>
+        </form>
     </div>
-    <h3>Put Animal</h3>
-    <div id="put-animal">
-    </div>
-    <h3>Delete Animal</h3>
-    <div id="delete-animal">
-    </div>
-    <h3>Get Animals</h3>
-    <ul id="animals-list"></ul>
+    <script type="text/javascript" src="Scripts/zookeeper.js"></script>
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
 
-        function getAnimalCallBack(responseText) {
-            document.getElementById("get-animal").innerHTML = responseText;
-        }
+        displayAnimalsView();
 
-        function postAnimalCallBack(responseText) {
-            document.getElementById("post-animal").innerHTML = responseText;
-        }
-
-        function putAnimalCallBack(responseText) {
-            document.getElementById("put-animal").innerHTML = responseText;
-        }
-
-        function deleteAnimalCallBack(responseText) {
-            document.getElementById("delete-animal").innerHTML = responseText;
-        }
-
-        function getAnimalsCallBack(responseText) {
-
-            var animalModels = JSON.parse(responseText);
-            var animalsList = document.getElementById("animals-list");
-
-            for (var i = 0; i < animalModels.length; i++)
-            {
-                var animalModel = animalModels[i];
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(animalModel.Name));
-                animalsList.appendChild(li);
-            }
-        }
-
-        function getRequest(url)
-        {
-            var request = new XMLHttpRequest();
-            request.open("GET", url, false);
-            request.send();
-
-            return request.responseText;
-        }
-
-        function getAnimal(id, callBack)
-        {
-            var url =  baseAddress + "api/Animal/" + id;
-            var responseText = getRequest(url);
-            callBack(responseText);
-        }
-
-        function postAnimal(callBack)
-        {
-            var request = new XMLHttpRequest();
-            request.open("POST", baseAddress + "api/Animal/")
-            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            request.onload = function () {
-                if (request.status === 200) {
-                    callBack(request.responseText);
-                }
-            };
-
-            request.send(JSON.stringify({ name: 'AnimalNamePOST' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
-        }
-
-        function putAnimal(id, callBack)
-        {
-            var request = new XMLHttpRequest();
-            request.open("PUT", baseAddress + "api/Animal/" + id)
-            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            request.onload = function () {
-                if (request.status === 200) {
-                    callBack(request.responseText);
-                }
-            };
-
-            request.send(JSON.stringify({ name: 'AnimalNamePUT' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
-        }
-
-        function deleteAnimal(id, callBack) {
-            var request = new XMLHttpRequest();
-            request.open("DELETE", baseAddress + "api/Animal/" + id, false);
-            request.send();
-
-            callBack(request.responseText);
-        }
-
-        function getAnimals(callBack) {
-            var url = baseAddress + "api/Animals/";
-            var responseText = getRequest(url);
-            callBack(responseText);
-        }
-
-        postAnimal(postAnimalCallBack);
-
-        //var animalId = "d4b14895-d1a1-4c6d-ab29-84bc992aed1f";
-
-        //getAnimal(animalId, getAnimalCallBack);
-
-        //putAnimal(animalId, putAnimalCallBack);
-
-        //getAnimal(animalId, getAnimalCallBack);
-
-        //deleteAnimal(animalId, deleteAnimalCallBack);
-        
-        getAnimals(getAnimalsCallBack);
-
+        initaliseAddNewButton();
+        intialiseDeleteButton();
 
     </script>
 </body>
