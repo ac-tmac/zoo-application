@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using ZooKeeperWebApi.Models;
 
@@ -24,7 +21,7 @@ namespace ZooKeeperWebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return animal.Name + animal.DateOfBirth + "INVALID";
+                return animal.Name + ", " + animal.DateOfBirth.ToString() + "INVALID";
             }
 
             animal.Id = Guid.NewGuid();
@@ -38,9 +35,14 @@ namespace ZooKeeperWebApi.Controllers
 
         public string Put(Guid id, Animal animal)
         {
+            if (!ModelState.IsValid)
+            {
+                return animal.Id + ", " + animal.Name + ", " + animal.DateOfBirth.ToString() + "INVALID";
+            }
+
             if (!zooKeeperDb.Animals.Any(x => x.Id == id))
             {
-                return "NOTFOUND";
+                return animal.Id + ", " + "NOTFOUND";
             }
 
             animal.Id = id;
@@ -54,7 +56,7 @@ namespace ZooKeeperWebApi.Controllers
             var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
             if (animal == null)
             {
-                return id.ToString();
+                return animal.Id + ", " + "NOTFOUND";
             }
 
             zooKeeperDb.Animals.Remove(animal);
