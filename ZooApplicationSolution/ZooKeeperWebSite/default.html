@@ -13,6 +13,10 @@
     </div>
     <div id="animal-form-view">
         <h2>Animal Form</h2>
+<!--
+        <p id="animal-form-feedback">
+        </p>
+-->
         <form id="animal-form">
             <input type="hidden" id="animal-form-id" />
             <label for="animal-form-name">Name</label>
@@ -23,46 +27,74 @@
             <button type="button" id="animal-form-delete-button">Delete</button>
         </form>
     </div>
-    <h3>Get Animal</h3>
-    <div id="get-animal">
-    </div>
-    <h3>Post Animal</h3>
-    <div id="post-animal">
-    </div>
-    <h3>Put Animal</h3>
-    <div id="put-animal">
-    </div>
-    <h3>Delete Animal</h3>
-    <div id="delete-animal">
-    </div>
+
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
 
-        function getAnimalCallBack(responseText) {
-           
+        function refreshAnimalsView()
+        {
+            getAnimals(getAnimalsCallBack);
+        }
+
+        function refreshEditAnimalForm()
+        {
+            var animal = getAnimalFromForm();
+            getAnimal(animal.id, getAnimalCallBack);
+        }
+
+        function animalFormReset()
+        {
             document.getElementById("animal-form").reset();
+        }
 
-            var animalModel = JSON.parse(responseText);
-            document.getElementById("animal-form-id").value = animalModel.Id;
-            document.getElementById("animal-form-name").value = animalModel.Name;
-            document.getElementById("animal-form-date-of-birth").value = animalModel.DateOfBirth;
+        function displayAddNewAnimalForm()
+        {
+            animalFormReset();
 
+            document.getElementById("animal-form-save-button").removeAttribute("onclick");
+            document.getElementById("animal-form-save-button").setAttribute("onclick", "postAnimal(postAnimalCallBack); return false;");
+            document.getElementById("animal-form-view").style.visibility = 'visible';
+            document.getElementById("animal-form-delete-button").style.visibility = 'hidden';
+        }
+
+        function displayEditAnimalForm(animalModel)
+        {
+            animalFormBind(animalModel)
+            document.getElementById("animal-form-save-button").removeAttribute("onclick");
             document.getElementById("animal-form-save-button").setAttribute("onclick", "putAnimal(putAnimalCallBack); return false;");
             document.getElementById("animal-form-view").style.visibility = 'visible';
             document.getElementById("animal-form-delete-button").style.visibility = 'visible';
         }
 
+        function animalFormBind(animalModel)
+        {
+            animalFormReset();
+            document.getElementById("animal-form-id").value = animalModel.Id;
+            document.getElementById("animal-form-name").value = animalModel.Name;
+            document.getElementById("animal-form-date-of-birth").value = animalModel.DateOfBirth;
+        }
+
+        function getAnimalCallBack(responseText) {
+            var animalModel = JSON.parse(responseText);
+            displayEditAnimalForm(animalModel);
+        }
+
         function postAnimalCallBack(responseText) {
-            document.getElementById("post-animal").innerHTML = responseText;
+            refreshAnimalsView();
+            displayAddNewAnimalForm();
+            //var animalFormFeedback = document.getElementById("animal-form-feedback");
         }
 
         function putAnimalCallBack(responseText) {
-            getAnimals(getAnimalsCallBack);
-            document.getElementById("put-animal").innerHTML = responseText;
+            refreshAnimalsView();
+            refreshEditAnimalForm();
+            //var animalFormFeedback = document.getElementById("animal-form-feedback");
         }
 
         function deleteAnimalCallBack(responseText) {
-            document.getElementById("delete-animal").innerHTML = responseText;
+            refreshAnimalsView();
+            displayAddNewAnimalForm();
+            //var animalFormFeedback = document.getElementById("animal-form-feedback");
         }
 
         function getAnimalsCallBack(responseText) {
@@ -94,7 +126,7 @@
             return request.responseText;
         }
 
-        function sendJsonOnRequest(type, url, json, callBack)
+        function sendJsonStringOnRequest(type, url, jsonString, callBack)
         {
             var request = new XMLHttpRequest();
             request.open(type, url)
@@ -105,7 +137,7 @@
                 }
             };
 
-            request.send(json);
+            request.send(jsonString);
         }
 
         function getAnimal(id, callBack) {
@@ -114,27 +146,34 @@
             callBack(responseText);
         }
 
+
+        function getAnimalFromForm() {
+            var animalId = document.getElementById("animal-form-id").value;
+            var animalName = document.getElementById("animal-form-name").value;
+            var animalDateOfBirth = document.getElementById("animal-form-date-of-birth").value;
+
+            var animal = { id: animalId, name: animalName, dateofbirth: animalDateOfBirth };
+            return animal;
+        }
+
         function postAnimal(callBack) {
             var type = "POST";
             var url = baseAddress + "api/Animal/";
 
-            var animalName = document.getElementById("animal-form-name").value;
-            var animalDateOfBirth = document.getElementById("animal-form-date-of-birth").value;
-            var json = JSON.stringify({ name: animalName, dateofbirth: animalDateOfBirth });
+            var animal = getAnimalFromForm();
+            var jsonString = JSON.stringify(animal);
 
-            sendJsonOnRequest(type, url, json, callBack);
+            sendJsonStringOnRequest(type, url, jsonString, callBack);
         }
 
         function putAnimal(callBack) {
+            var animal = getAnimalFromForm();
+
             var type = "PUT";
-            var animalId = document.getElementById("animal-form-id").value;
-            var url = baseAddress + "api/Animal/" + animalId;
+            var url = baseAddress + "api/Animal/" + animal.id;
+            var jsonString = JSON.stringify(animal);
 
-            var animalName = document.getElementById("animal-form-name").value;
-            var animalDateOfBirth = document.getElementById("animal-form-date-of-birth").value;
-            var json = JSON.stringify({ name: animalName, dateofbirth: animalDateOfBirth });
-
-            sendJsonOnRequest(type, url, json, callBack);
+            sendJsonStringOnRequest(type, url, jsonString, callBack);
         }
 
         function deleteAnimal(id, callBack) {
@@ -153,33 +192,29 @@
 
         function animalAddNewButtonOnClick()
         {
-            document.getElementById("animal-form").reset();
-            document.getElementById("animal-form-view").style.visibility = 'visible';
-
-            document.getElementById("animal-form-delete-button").style.visibility = 'hidden';
+            displayAddNewAnimalForm()
         }
 
-        postAnimal(postAnimalCallBack);
+        function animalFormDeleteButtonOnClick()
+        {
+            var animal = getAnimalFromForm();
+            var animalId = animal.id;
+            deleteAnimal(animalId, deleteAnimalCallBack);
+        }
 
-        //var animalId = "d4b14895-d1a1-4c6d-ab29-84bc992aed1f";
-
-        //getAnimal(animalId, getAnimalCallBack);
-
-        //putAnimal(animalId, putAnimalCallBack);
-
-        //getAnimal(animalId, getAnimalCallBack);
-
-        //deleteAnimal(animalId, deleteAnimalCallBack);
+        // postAnimal(postAnimalCallBack);
 
         getAnimals(getAnimalsCallBack);
 
         var animalAddNewButton = document.getElementById("animal-add-new-button");
         animalAddNewButton.addEventListener("click", animalAddNewButtonOnClick)
 
+        var animalFormDeleteButton = document.getElementById("animal-form-delete-button");
+        animalFormDeleteButton.addEventListener("click", animalFormDeleteButtonOnClick);
 
     </script>
     <style type="text/css">
-        #animal-form-view {
+        #animal-form-view, #animal-form-feedback {
             visibility: hidden;
         }
     </style>
