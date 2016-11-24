@@ -7,6 +7,12 @@ namespace ZooKeeperWebApi.Controllers
 {
     public class AnimalController : ApiController
     {
+        // Each animal should share a common set of properties, only store their name, date of birth and type.
+
+        //TODO: Demonstrate inheritance and abstraction    
+        // we are only storing a small set of animal family characteristics, each species would have a number of unique traits, the need for animal families to be stored separately. 
+        // https://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
+
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
 
         public Animal Get(Guid id)
