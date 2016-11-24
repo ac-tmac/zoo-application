@@ -2,11 +2,27 @@
 <html>
 <head>
     <title></title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
 </head>
 <body>
-    <h1>Zoo Application</h1>
-    <h2>Zoo Keeper</h2>
+    <h1>Zoo Application | Zoo Keeper</h1>
+    <div id="animals-view">
+        <h2>Get Animals</h2>
+        <ul id="animals-list"></ul>
+        <button type="button" id="animal-add-new-button">Add New</button>
+    </div>
+    <div id="animal-form-view">
+        <h2>Animal Form</h2>
+        <form id="animal-form">
+            <input type="hidden" id="animal-form-id" />
+            <label for="animal-form-name">Name</label>
+            <input id="animal-form-name" name="animal-form-name" type="text" />
+            <label for="animal-form-date-of-birth">Date of Birth</label>
+            <input id="animal-form-date-of-birth" name="animal-form-date-of-birth" type="date" />
+            <button type="button" id="animal-form-save-button">Save</button>
+            <button type="button" id="animal-form-delete-button">Delete</button>
+        </form>
+    </div>
     <h3>Get Animal</h3>
     <div id="get-animal">
     </div>
@@ -19,13 +35,21 @@
     <h3>Delete Animal</h3>
     <div id="delete-animal">
     </div>
-    <h3>Get Animals</h3>
-    <ul id="animals-list"></ul>
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
 
         function getAnimalCallBack(responseText) {
-            document.getElementById("get-animal").innerHTML = responseText;
+           
+            document.getElementById("animal-form").reset();
+
+            var animalModel = JSON.parse(responseText);
+            document.getElementById("animal-form-id").value = animalModel.Id;
+            document.getElementById("animal-form-name").value = animalModel.Name;
+            document.getElementById("animal-form-date-of-birth").value = animalModel.DateOfBirth;
+
+            document.getElementById("animal-form-save-button").setAttribute("onclick", "putAnimal(putAnimalCallBack); return false;");
+            document.getElementById("animal-form-view").style.visibility = 'visible';
+            document.getElementById("animal-form-delete-button").style.visibility = 'visible';
         }
 
         function postAnimalCallBack(responseText) {
@@ -33,6 +57,7 @@
         }
 
         function putAnimalCallBack(responseText) {
+            getAnimals(getAnimalsCallBack);
             document.getElementById("put-animal").innerHTML = responseText;
         }
 
@@ -44,18 +69,24 @@
 
             var animalModels = JSON.parse(responseText);
             var animalsList = document.getElementById("animals-list");
+            animalsList.innerHTML = "";
 
-            for (var i = 0; i < animalModels.length; i++)
-            {
+            for (var i = 0; i < animalModels.length; i++) {
                 var animalModel = animalModels[i];
+
+                var link = document.createElement("a");
+                var linkText = document.createTextNode(animalModel.Name);
+                link.appendChild(linkText);
+                link.setAttribute("onclick", "getAnimal('" + animalModel.Id + "', getAnimalCallBack); return false;");
+                link.href = "#";
+
                 var li = document.createElement("li");
-                li.appendChild(document.createTextNode(animalModel.Name));
+                li.appendChild(link);
                 animalsList.appendChild(li);
             }
         }
 
-        function getRequest(url)
-        {
+        function sendGetRequest(url) {
             var request = new XMLHttpRequest();
             request.open("GET", url, false);
             request.send();
@@ -63,39 +94,47 @@
             return request.responseText;
         }
 
-        function getAnimal(id, callBack)
+        function sendJsonOnRequest(type, url, json, callBack)
         {
-            var url =  baseAddress + "api/Animal/" + id;
-            var responseText = getRequest(url);
+            var request = new XMLHttpRequest();
+            request.open(type, url)
+            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.onload = function () {
+                if (request.status === 200) {
+                    callBack(request.responseText);
+                }
+            };
+
+            request.send(json);
+        }
+
+        function getAnimal(id, callBack) {
+            var url = baseAddress + "api/Animal/" + id;
+            var responseText = sendGetRequest(url);
             callBack(responseText);
         }
 
-        function postAnimal(callBack)
-        {
-            var request = new XMLHttpRequest();
-            request.open("POST", baseAddress + "api/Animal/")
-            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            request.onload = function () {
-                if (request.status === 200) {
-                    callBack(request.responseText);
-                }
-            };
+        function postAnimal(callBack) {
+            var type = "POST";
+            var url = baseAddress + "api/Animal/";
 
-            request.send(JSON.stringify({ name: 'AnimalNamePOST' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
+            var animalName = document.getElementById("animal-form-name").value;
+            var animalDateOfBirth = document.getElementById("animal-form-date-of-birth").value;
+            var json = JSON.stringify({ name: animalName, dateofbirth: animalDateOfBirth });
+
+            sendJsonOnRequest(type, url, json, callBack);
         }
 
-        function putAnimal(id, callBack)
-        {
-            var request = new XMLHttpRequest();
-            request.open("PUT", baseAddress + "api/Animal/" + id)
-            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            request.onload = function () {
-                if (request.status === 200) {
-                    callBack(request.responseText);
-                }
-            };
+        function putAnimal(callBack) {
+            var type = "PUT";
+            var animalId = document.getElementById("animal-form-id").value;
+            var url = baseAddress + "api/Animal/" + animalId;
 
-            request.send(JSON.stringify({ name: 'AnimalNamePUT' + Math.floor(Math.random() * 20), dateofbirth: "2012-04-23" }));
+            var animalName = document.getElementById("animal-form-name").value;
+            var animalDateOfBirth = document.getElementById("animal-form-date-of-birth").value;
+            var json = JSON.stringify({ name: animalName, dateofbirth: animalDateOfBirth });
+
+            sendJsonOnRequest(type, url, json, callBack);
         }
 
         function deleteAnimal(id, callBack) {
@@ -108,8 +147,16 @@
 
         function getAnimals(callBack) {
             var url = baseAddress + "api/Animals/";
-            var responseText = getRequest(url);
+            var responseText = sendGetRequest(url);
             callBack(responseText);
+        }
+
+        function animalAddNewButtonOnClick()
+        {
+            document.getElementById("animal-form").reset();
+            document.getElementById("animal-form-view").style.visibility = 'visible';
+
+            document.getElementById("animal-form-delete-button").style.visibility = 'hidden';
         }
 
         postAnimal(postAnimalCallBack);
@@ -123,10 +170,18 @@
         //getAnimal(animalId, getAnimalCallBack);
 
         //deleteAnimal(animalId, deleteAnimalCallBack);
-        
+
         getAnimals(getAnimalsCallBack);
+
+        var animalAddNewButton = document.getElementById("animal-add-new-button");
+        animalAddNewButton.addEventListener("click", animalAddNewButtonOnClick)
 
 
     </script>
+    <style type="text/css">
+        #animal-form-view {
+            visibility: hidden;
+        }
+    </style>
 </body>
 </html>
