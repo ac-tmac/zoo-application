@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Web.Http;
 using ZooKeeperWebApi.Models;
+using ZooKeeperWebApi.DTOs;
+using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Controllers
 {
@@ -15,23 +17,40 @@ namespace ZooKeeperWebApi.Controllers
 
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
 
-        public Animal Get(Guid id)
+        public IAnimalDTO Get(Guid id)
         {
             var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
 
-            return animal;
+            var animalDTO = new AnimalDTO();
+            Map(animal, animalDTO);
+
+            return animalDTO;
         }
 
+        private void Map(IAnimalDTO dto, IAnimal model)
+        {
+            model.Id = dto.Id;
+            model.Name = dto.Name;
+            model.DateOfBirth = dto.DateOfBirth.Date;
+        }
 
-        public string Post(Animal animal)
+        private void Map(IAnimal model, IAnimalDTO dto)
+        {
+            dto.Id = model.Id;
+            dto.Name = model.Name;
+            dto.DateOfBirth = model.DateOfBirth.Date;
+        }
+        
+        public string Post(AnimalDTO animalDTO)
         {
             if (!ModelState.IsValid)
             {
-                return animal.Name + ", " + animal.DateOfBirth.ToString() + "INVALID";
+                return "INVALID";
             }
 
+            var animal = new Animal();
+            Map(animalDTO, animal);
             animal.Id = Guid.NewGuid();
-            animal.DateOfBirth = animal.DateOfBirth.Date;
 
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
             zooKeeperDb.SaveChanges();
@@ -39,21 +58,26 @@ namespace ZooKeeperWebApi.Controllers
             return animal.Name + ", " + animal.DateOfBirth.ToString();
         }
 
-        public string Put(Guid id, Animal animal)
+        public string Put(Guid id, AnimalDTO animalDTO)
         {
             if (!ModelState.IsValid)
             {
-                return animal.Id + ", " + animal.Name + ", " + animal.DateOfBirth.ToString() + "INVALID";
+                return "INVALID";
             }
+
+            animalDTO.Id = id;
 
             if (!zooKeeperDb.Animals.Any(x => x.Id == id))
             {
-                return animal.Id + ", " + "NOTFOUND";
+                return id + ", " + "NOTFOUND";
             }
 
-            animal.Id = id;
+            var animal = new Animal();
+            Map(animalDTO, animal);
+
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Modified;
             zooKeeperDb.SaveChanges();
+
             return animal.Name + ", " + animal.DateOfBirth.ToString();
         }
 
@@ -67,6 +91,7 @@ namespace ZooKeeperWebApi.Controllers
 
             zooKeeperDb.Animals.Remove(animal);
             zooKeeperDb.SaveChanges();
+
             return "REMOVED";
         }
     }
