@@ -24,5 +24,11 @@ namespace ZooKeeperWebApi.Models
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
             zooKeeperDb.SaveChanges();
         }
+
+        public void Update(IAnimal animal)
+        {
+            zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Modified;
+            zooKeeperDb.SaveChanges();
+        }
     }
 }

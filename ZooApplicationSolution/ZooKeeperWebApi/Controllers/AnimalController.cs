@@ -78,8 +78,7 @@ namespace ZooKeeperWebApi.Controllers
             var animal = new Animal();
             Map(animalDTO, animal);
 
-            zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Modified;
-            zooKeeperDb.SaveChanges();
+            this.respositry.Update(animal);
 
             return animal.Name + ", " + animal.DateOfBirth.ToString();
         }
