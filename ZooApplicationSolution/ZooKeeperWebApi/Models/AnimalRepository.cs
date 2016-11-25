@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ZooKeeperWebApi.Models;
+using ZooKeeperWebApi.Interfaces;
 
-namespace ZooKeeperWebApi.Interfaces
+namespace ZooKeeperWebApi.Models
 {
-    public class AnimalRepository
+    public class AnimalRepository : IAnimalRepository
     {
         private ZooKeeperDbContext zooKeeperDb;
         public AnimalRepository(ZooKeeperDbContext zooKeeperDb)
@@ -14,7 +15,7 @@ namespace ZooKeeperWebApi.Interfaces
             this.zooKeeperDb = zooKeeperDb;
         }
 
-        public Animal Get(Guid id)
+        public IAnimal Get(Guid id)
         {
             var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
             return animal;
