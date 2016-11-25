@@ -4,6 +4,7 @@ using System.Web.Http;
 using ZooKeeperWebApi.Models;
 using ZooKeeperWebApi.DTOs;
 using ZooKeeperWebApi.Interfaces;
+using System.Net;
 
 namespace ZooKeeperWebApi.Controllers
 {
@@ -23,14 +24,19 @@ namespace ZooKeeperWebApi.Controllers
             this.respositry = new AnimalRepository(zooKeeperDb);
         }
 
-        public IAnimalDTO Get(Guid id)
+        public IHttpActionResult Get(Guid id)
         {
             var animal = this.respositry.Get(id);
+
+            if (animal == null)
+            {
+                return NotFound();
+            }
 
             var animalDTO = new AnimalDTO();
             Map(animal, animalDTO);
 
-            return animalDTO;
+            return Ok(animalDTO);
         }
 
         private void Map(IAnimalDTO dto, IAnimal model)
@@ -47,52 +53,53 @@ namespace ZooKeeperWebApi.Controllers
             dto.DateOfBirth = model.DateOfBirth.Date;
         }
         
-        public string Post(AnimalDTO animalDTO)
+        public IHttpActionResult Post(AnimalDTO animalDTO)
         {
             if (!ModelState.IsValid)
             {
-                return "INVALID";
+                return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
             var animal = new Animal();
             Map(animalDTO, animal);
+
+            animal.Id = Guid.NewGuid();
             this.respositry.Add(animal);
 
-            return animal.Name + ", " + animal.DateOfBirth.ToString();
+            return Ok(animal.Id.ToString()); 
         }
 
-        public string Put(Guid id, AnimalDTO animalDTO)
+        public IHttpActionResult Put(Guid id, AnimalDTO animalDTO)
         {
             if (!ModelState.IsValid)
             {
-                return "INVALID";
+                return Content(HttpStatusCode.BadRequest, animalDTO);
+            }
+
+            if (!this.respositry.Exists(id))
+            {
+                return NotFound();
             }
 
             animalDTO.Id = id;
-
-            if (!zooKeeperDb.Animals.Any(x => x.Id == id))
-            {
-                return id + ", " + "NOTFOUND";
-            }
 
             var animal = new Animal();
             Map(animalDTO, animal);
 
             this.respositry.Update(animal);
 
-            return animal.Name + ", " + animal.DateOfBirth.ToString();
+            return Ok();
         }
 
-        public string Delete(Guid id)
+        public IHttpActionResult Delete(Guid id)
         {
             if (!this.respositry.Exists(id))
             {
-                return id + ", " + "NOTFOUND";
+                return NotFound();
             }
 
             this.respositry.Delete(id);
-
-            return "REMOVED";
+            return Ok();
         }
     }
 }
