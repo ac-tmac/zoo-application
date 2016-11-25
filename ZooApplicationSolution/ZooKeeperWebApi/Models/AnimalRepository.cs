@@ -30,5 +30,18 @@ namespace ZooKeeperWebApi.Models
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Modified;
             zooKeeperDb.SaveChanges();
         }
+
+        public void Delete(Guid id)
+        {
+            var animal = zooKeeperDb.Animals.Single(x => x.Id == id);
+            zooKeeperDb.Animals.Remove(animal);
+            zooKeeperDb.SaveChanges();
+        }
+
+        public bool Exists(Guid id)
+        {
+            var exists = zooKeeperDb.Animals.Any(x => x.Id == id);
+            return exists;
+        }
     }
 }
