@@ -85,14 +85,12 @@ namespace ZooKeeperWebApi.Controllers
 
         public string Delete(Guid id)
         {
-            var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
-            if (animal == null)
+            if (!this.respositry.Exists(id))
             {
-                return animal.Id + ", " + "NOTFOUND";
+                return id + ", " + "NOTFOUND";
             }
 
-            zooKeeperDb.Animals.Remove(animal);
-            zooKeeperDb.SaveChanges();
+            this.respositry.Delete(id);
 
             return "REMOVED";
         }
