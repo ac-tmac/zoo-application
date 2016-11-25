@@ -20,7 +20,6 @@ namespace ZooKeeperWebApi.Models
 
         public void Add(IAnimal animal)
         {
-            animal.Id = Guid.NewGuid();
             zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
             zooKeeperDb.SaveChanges();
         }
