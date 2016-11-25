@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ZooKeeperWebApi.Models;
 using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
@@ -19,6 +16,13 @@ namespace ZooKeeperWebApi.Models
         {
             var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
             return animal;
+        }
+
+        public void Add(IAnimal animal)
+        {
+            animal.Id = Guid.NewGuid();
+            zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
+            zooKeeperDb.SaveChanges();
         }
     }
 }
