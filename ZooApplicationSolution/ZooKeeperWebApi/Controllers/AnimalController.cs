@@ -16,10 +16,16 @@ namespace ZooKeeperWebApi.Controllers
         // https://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
 
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
+        private AnimalRepository respositry;
+
+        public AnimalController()
+        {
+            this.respositry = new AnimalRepository(zooKeeperDb);
+        }
 
         public IAnimalDTO Get(Guid id)
         {
-            var animal = zooKeeperDb.Animals.SingleOrDefault(x => x.Id == id);
+            var animal = this.respositry.Get(id);
 
             var animalDTO = new AnimalDTO();
             Map(animal, animalDTO);
