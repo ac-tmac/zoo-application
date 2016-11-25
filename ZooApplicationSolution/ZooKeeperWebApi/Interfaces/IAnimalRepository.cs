@@ -9,5 +9,6 @@ namespace ZooKeeperWebApi.Interfaces
     interface IAnimalRepository
     {
         IAnimal Get(Guid id);
+        void Add(IAnimal animal);
     }
 }
