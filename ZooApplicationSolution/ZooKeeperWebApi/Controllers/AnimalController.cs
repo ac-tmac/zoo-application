@@ -42,7 +42,10 @@ namespace ZooKeeperWebApi.Controllers
 
         private void Map(IAnimalDTO dto, IAnimal model)
         {
-            model.Id = dto.Id;
+            if (dto.Id.HasValue)
+            {
+                model.Id = dto.Id.Value;
+            }
             model.Name = dto.Name;
             model.DateOfBirth = dto.DateOfBirth.Date;
         }
@@ -61,7 +64,7 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            var animalClassifier = new AnimalClassifier(AnimalType.Undefined);
+            var animalClassifier = new AnimalClassifier(AnimalType.Bird);
             var animalFactory = new AnimalFactory();
             var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
@@ -86,7 +89,7 @@ namespace ZooKeeperWebApi.Controllers
 
             animalDTO.Id = id;
 
-            var animalClassifier = new AnimalClassifier(AnimalType.Undefined);
+            var animalClassifier = new AnimalClassifier(AnimalType.Mammal);
             var animalFactory = new AnimalFactory();
             var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
