@@ -12,6 +12,7 @@ namespace ZooKeeperWebApi.Controllers
 
         public IEnumerable<IAnimal> Get()
         {
+            //TODO: How to make this work?
             return zooKeeperDb.Animals.OrderBy(x => x.Name);
         }
     }
