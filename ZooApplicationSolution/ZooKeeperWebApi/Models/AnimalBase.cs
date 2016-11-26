@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using ZooKeeperWebApi.Interfaces;
+using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Models
 {
@@ -10,6 +11,6 @@ namespace ZooKeeperWebApi.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
-        // public abstract string Type { get; set; }
+        public abstract AnimalType AnimalType { get; }
     }
 }
