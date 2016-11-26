@@ -20,7 +20,8 @@ namespace ZooKeeperWebApi.Models
 
         public void Add(IAnimal animal)
         {
-            zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
+            // zooKeeperDb.Entry(animal).State = System.Data.Entity.EntityState.Added;
+            zooKeeperDb.Animals.Add(animal as AnimalBase);
             zooKeeperDb.SaveChanges();
         }
 
