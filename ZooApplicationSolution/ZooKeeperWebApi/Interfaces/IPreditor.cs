@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ZooKeeperWebApi.Interfaces
+﻿namespace ZooKeeperWebApi.Interfaces
 {
-    interface IPreditor
+    public interface IPreditor
     {
         bool IsPreditor { get;}
     }

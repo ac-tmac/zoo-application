@@ -5,6 +5,7 @@ using ZooKeeperWebApi.Models;
 using ZooKeeperWebApi.DTOs;
 using ZooKeeperWebApi.Interfaces;
 using System.Net;
+using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Controllers
 {
@@ -60,7 +61,7 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            var animal = new Animal();
+            var animal = new AnimalClassifier(AnimalType.Undefined);
             Map(animalDTO, animal);
 
             animal.Id = Guid.NewGuid();
@@ -83,7 +84,7 @@ namespace ZooKeeperWebApi.Controllers
 
             animalDTO.Id = id;
 
-            var animal = new Animal();
+            var animal = new AnimalClassifier(AnimalType.Undefined);
             Map(animalDTO, animal);
 
             this.respositry.Update(animal);

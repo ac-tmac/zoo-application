@@ -9,6 +9,6 @@ namespace ZooKeeperWebApi.Models
 
         }
 
-        public DbSet<Animal> Animals { get; set; }
+        public DbSet<AnimalClassifier> Animals { get; set; }
     }
 }

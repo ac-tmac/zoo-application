@@ -9,7 +9,7 @@ namespace ZooKeeperWebApi.Controllers
     {
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
 
-        public IEnumerable<Animal> Get()
+        public IEnumerable<AnimalClassifier> Get()
         {
             return zooKeeperDb.Animals.OrderBy(x => x.Name);
         }

@@ -7,5 +7,6 @@ namespace ZooKeeperWebApi.Interfaces
         Guid Id { get; set; }
         string Name { get; set; }
         DateTime DateOfBirth { get; set; }
+        
     }
 }

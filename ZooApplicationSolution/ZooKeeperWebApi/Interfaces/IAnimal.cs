@@ -1,4 +1,5 @@
 ﻿using System;
+using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Interfaces
 {
