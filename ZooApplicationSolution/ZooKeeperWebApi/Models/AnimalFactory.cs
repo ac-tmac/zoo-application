@@ -12,8 +12,22 @@ namespace ZooKeeperWebApi.Models
         {
             IAnimal animal = null;
 
-            // if (classifier.)
+            switch (classifier.AnimalType)
+            {
+                case Enums.AnimalType.Bird:
+                    if (classifier.CanFly)
+                    {
+                        return new Parrot();
+                    }
+                    return new Ostrich();
 
+                case Enums.AnimalType.Mammal:
+                    if (classifier.IsPreditor)
+                    {
+                        return new Tiger();
+                    }
+                    return new Elephant();
+            }
             return animal;
         }
     }

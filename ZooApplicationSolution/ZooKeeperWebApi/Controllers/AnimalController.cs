@@ -61,7 +61,9 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            var animal = new AnimalClassifier(AnimalType.Undefined);
+            var animalClassifier = new AnimalClassifier(AnimalType.Undefined);
+            var animalFactory = new AnimalFactory();
+            var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
 
             animal.Id = Guid.NewGuid();
@@ -84,7 +86,9 @@ namespace ZooKeeperWebApi.Controllers
 
             animalDTO.Id = id;
 
-            var animal = new AnimalClassifier(AnimalType.Undefined);
+            var animalClassifier = new AnimalClassifier(AnimalType.Undefined);
+            var animalFactory = new AnimalFactory();
+            var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
 
             this.respositry.Update(animal);
