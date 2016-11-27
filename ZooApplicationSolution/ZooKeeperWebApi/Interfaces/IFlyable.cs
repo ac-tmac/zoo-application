@@ -2,6 +2,6 @@
 {
     public interface IFlyable
     {
-        bool CanFly { get;}
+        bool CanFly { get; }
     }
 }
