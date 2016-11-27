@@ -8,7 +8,7 @@ namespace ZooKeeperWebApi.Models
 {
     public class AnimalFactory
     {
-        public IAnimal Get(IAnimalClassifier classifier)
+        public IAnimal Get(IAnimalProfile classifier)
         {
             IAnimal animal = null;
 

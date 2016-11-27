@@ -7,7 +7,7 @@ using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Interfaces
 {
-    public interface IAnimalClassifier: IAnimal, IFlyable, IPreditor
+    public interface IAnimalProfile: IAnimal, IFlyable, IPreditor
     {
         AnimalType AnimalType { get; }
     }

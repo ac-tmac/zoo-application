@@ -66,7 +66,7 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            var animalClassifier = new AnimalClassifier(AnimalType.Bird);
+            var animalClassifier = new AnimalProfile(AnimalType.Bird);
             var animalFactory = new AnimalFactory();
             var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
@@ -91,7 +91,7 @@ namespace ZooKeeperWebApi.Controllers
 
             animalDTO.Id = id;
 
-            var animalClassifier = new AnimalClassifier(AnimalType.Mammal);
+            var animalClassifier = new AnimalProfile(AnimalType.Mammal);
             var animalFactory = new AnimalFactory();
             var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);

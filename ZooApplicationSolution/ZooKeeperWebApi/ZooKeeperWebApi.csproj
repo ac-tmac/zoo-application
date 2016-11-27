@@ -124,7 +124,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IAnimalClassifier.cs" />
+    <Compile Include="Interfaces\IAnimalProfile.cs" />
     <Compile Include="Interfaces\IAnimalRepository.cs" />
     <Compile Include="Interfaces\IFlyable.cs" />
     <Compile Include="Interfaces\IPreditor.cs" />
@@ -132,7 +132,7 @@
     <Compile Include="Models\AnimalRepository.cs" />
     <Compile Include="Interfaces\IAnimal.cs" />
     <Compile Include="Interfaces\IAnimalDTO.cs" />
-    <Compile Include="Models\AnimalClassifier.cs" />
+    <Compile Include="Models\AnimalProfile.cs" />
     <Compile Include="Models\AnimalBase.cs" />
     <Compile Include="DTOs\AnimalDTO.cs" />
     <Compile Include="Enums\AnimalType.cs" />

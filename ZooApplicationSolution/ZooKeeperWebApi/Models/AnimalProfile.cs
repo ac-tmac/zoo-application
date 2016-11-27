@@ -4,11 +4,11 @@ using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
 {
-    public class AnimalClassifier : AnimalBase, IAnimalClassifier
+    public class AnimalProfile : AnimalBase, IAnimalProfile
     {
         AnimalType animalType;
 
-        public AnimalClassifier(AnimalType animalType)
+        public AnimalProfile(AnimalType animalType)
         {
             this.animalType = animalType;
         }

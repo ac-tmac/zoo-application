@@ -19,7 +19,7 @@ namespace ZooKeeperWebApi.Models
         {
             get
             {
-                return true;
+                return false;
             }
         }
     }
