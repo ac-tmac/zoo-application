@@ -5,6 +5,7 @@ using ZooKeeperWebApi.Models;
 using ZooKeeperWebApi.DTOs;
 using ZooKeeperWebApi.Interfaces;
 using System.Net;
+using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Controllers
 {
@@ -13,7 +14,9 @@ namespace ZooKeeperWebApi.Controllers
         // Each animal should share a common set of properties, only store their name, date of birth and type.
 
         //TODO: Demonstrate inheritance and abstraction    
-        // we are only storing a small set of animal family characteristics, each species would have a number of unique traits, the need for animal families to be stored separately. 
+        // we are only storing a small set of animal family characteristics, 
+        // each species would have a number of unique traits, 
+        // the need for animal families to be stored separately. 
         // https://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
 
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
@@ -41,7 +44,10 @@ namespace ZooKeeperWebApi.Controllers
 
         private void Map(IAnimalDTO dto, IAnimal model)
         {
-            model.Id = dto.Id;
+            if (dto.Id.HasValue)
+            {
+                model.Id = dto.Id.Value;
+            }
             model.Name = dto.Name;
             model.DateOfBirth = dto.DateOfBirth.Date;
         }
@@ -52,7 +58,7 @@ namespace ZooKeeperWebApi.Controllers
             dto.Name = model.Name;
             dto.DateOfBirth = model.DateOfBirth.Date;
         }
-        
+
         public IHttpActionResult Post(AnimalDTO animalDTO)
         {
             if (!ModelState.IsValid)
@@ -60,13 +66,15 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            var animal = new Animal();
+            var animalClassifier = new AnimalProfile(AnimalType.Bird);
+            var animalFactory = new AnimalFactory();
+            var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
 
             animal.Id = Guid.NewGuid();
             this.respositry.Add(animal);
 
-            return Ok(animal.Id.ToString()); 
+            return Ok(animal.Id.ToString());
         }
 
         public IHttpActionResult Put(Guid id, AnimalDTO animalDTO)
@@ -76,14 +84,14 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            if (!this.respositry.Exists(id))
+            var animal = this.respositry.Get(id);
+
+            if (animal == null)
             {
                 return NotFound();
             }
 
             animalDTO.Id = id;
-
-            var animal = new Animal();
             Map(animalDTO, animal);
 
             this.respositry.Update(animal);

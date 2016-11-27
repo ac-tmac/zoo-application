@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using ZooKeeperWebApi.Models;
+using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Controllers
 {
@@ -9,7 +10,7 @@ namespace ZooKeeperWebApi.Controllers
     {
         ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
 
-        public IEnumerable<Animal> Get()
+        public IEnumerable<IAnimal> Get()
         {
             return zooKeeperDb.Animals.OrderBy(x => x.Name);
         }

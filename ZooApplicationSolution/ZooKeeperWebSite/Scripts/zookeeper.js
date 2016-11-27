@@ -17,7 +17,7 @@ function displayAnimalsView() {
 }
 
 function animalAddNewButtonOnClick() {
-    displayAddNewAnimalForm()
+    displayAddNewAnimalForm();
 }
 
 function animalFormDeleteButtonOnClick() {
@@ -54,7 +54,7 @@ function displayAddNewAnimalForm() {
 }
 
 function displayEditAnimalForm(animalModel) {
-    animalFormBind(animalModel)
+    animalFormBind(animalModel);
     document.getElementById("animal-form-save-button").removeAttribute("onclick");
     document.getElementById("animal-form-save-button").setAttribute("onclick", "putAnimal(putAnimalCallBack); return false;");
     document.getElementById("animal-form-view").style.visibility = 'visible';
@@ -122,7 +122,7 @@ function sendGetRequest(url) {
 
 function sendJsonStringOnRequest(type, url, jsonString, callBack) {
     var request = new XMLHttpRequest();
-    request.open(type, url)
+    request.open(type, url);
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.onload = function () {
         if (request.status === 200) {
