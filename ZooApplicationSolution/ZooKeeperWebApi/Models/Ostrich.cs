@@ -5,7 +5,7 @@ namespace ZooKeeperWebApi.Models
 {
     public class Ostrich : Animal, IFlyable
     {
-        public override AnimalType AnimalType
+        public override AnimalType Type
         {
             get
             {

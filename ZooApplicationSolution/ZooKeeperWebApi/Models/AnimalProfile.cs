@@ -13,7 +13,7 @@ namespace ZooKeeperWebApi.Models
             this.animalType = animalType;
         }
 
-        public AnimalType AnimalType
+        public AnimalType Type
         {
             get
             {

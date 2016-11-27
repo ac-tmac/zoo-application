@@ -5,7 +5,7 @@ namespace ZooKeeperWebApi.Models
 {
     public class Tiger : Animal, IPreditor
     {
-        public override AnimalType AnimalType
+        public override AnimalType Type
         {
             get
             {

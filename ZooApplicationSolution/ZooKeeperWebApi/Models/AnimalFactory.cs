@@ -8,7 +8,7 @@ namespace ZooKeeperWebApi.Models
         {
             IAnimal animal = null;
 
-            switch (classifier.AnimalType)
+            switch (classifier.Type)
             {
                 case Enums.AnimalType.Bird:
                     if (classifier.CanFly)

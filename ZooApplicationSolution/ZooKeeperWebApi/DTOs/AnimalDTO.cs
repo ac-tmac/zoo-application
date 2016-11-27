@@ -9,6 +9,6 @@ namespace ZooKeeperWebApi.DTOs
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public AnimalType AnimalType { get; set; }
+        public AnimalType Type { get; set; }
     }
 }
