@@ -2,6 +2,6 @@
 {
     public interface IPreditor
     {
-        bool IsPreditor { get;}
+        bool IsPreditor { get; }
     }
 }

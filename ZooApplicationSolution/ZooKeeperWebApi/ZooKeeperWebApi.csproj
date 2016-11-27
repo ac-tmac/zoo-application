@@ -126,6 +126,8 @@
     </Compile>
     <Compile Include="Interfaces\IAnimalProfile.cs" />
     <Compile Include="Interfaces\IAnimalRepository.cs" />
+    <Compile Include="Interfaces\IFlyable.cs" />
+    <Compile Include="Interfaces\IPreditor.cs" />
     <Compile Include="Models\AnimalFactory.cs" />
     <Compile Include="Models\AnimalRepository.cs" />
     <Compile Include="Interfaces\IAnimal.cs" />
@@ -135,8 +137,6 @@
     <Compile Include="DTOs\AnimalDTO.cs" />
     <Compile Include="Enums\AnimalType.cs" />
     <Compile Include="Models\Elephant.cs" />
-    <Compile Include="Models\IFlyable.cs" />
-    <Compile Include="Models\IPreditor.cs" />
     <Compile Include="Models\Ostrich.cs" />
     <Compile Include="Models\Parrot.cs" />
     <Compile Include="Models\Tiger.cs" />
