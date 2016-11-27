@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZooKeeperWebApi.Interfaces;
+﻿using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
 {
@@ -19,6 +15,7 @@ namespace ZooKeeperWebApi.Models
                     {
                         return new Parrot();
                     }
+
                     return new Ostrich();
 
                 case Enums.AnimalType.Mammal:
@@ -26,8 +23,10 @@ namespace ZooKeeperWebApi.Models
                     {
                         return new Tiger();
                     }
+
                     return new Elephant();
             }
+
             return animal;
         }
     }

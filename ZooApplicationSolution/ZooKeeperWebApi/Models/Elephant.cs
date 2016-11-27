@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using ZooKeeperWebApi.Enums;
+﻿using ZooKeeperWebApi.Enums;
 using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
 {
-    public class Elephant : AnimalBase, IPreditor
+    public class Elephant : Animal, IPreditor
     {
         public override AnimalType AnimalType
         {
@@ -14,13 +13,14 @@ namespace ZooKeeperWebApi.Models
             }
         }
 
-        [NotMapped]
         public bool IsPreditor
         {
             get
             {
                 return false;
             }
+
+            private set { }
         }
     }
 }

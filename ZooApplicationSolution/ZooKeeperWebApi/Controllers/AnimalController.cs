@@ -58,7 +58,7 @@ namespace ZooKeeperWebApi.Controllers
             dto.Name = model.Name;
             dto.DateOfBirth = model.DateOfBirth.Date;
         }
-        
+
         public IHttpActionResult Post(AnimalDTO animalDTO)
         {
             if (!ModelState.IsValid)
@@ -74,7 +74,7 @@ namespace ZooKeeperWebApi.Controllers
             animal.Id = Guid.NewGuid();
             this.respositry.Add(animal);
 
-            return Ok(animal.Id.ToString()); 
+            return Ok(animal.Id.ToString());
         }
 
         public IHttpActionResult Put(Guid id, AnimalDTO animalDTO)

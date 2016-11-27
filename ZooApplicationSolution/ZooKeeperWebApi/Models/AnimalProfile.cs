@@ -4,7 +4,7 @@ using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
 {
-    public class AnimalProfile : AnimalBase, IAnimalProfile
+    public class AnimalProfile : IAnimalProfile
     {
         AnimalType animalType;
 
@@ -13,7 +13,7 @@ namespace ZooKeeperWebApi.Models
             this.animalType = animalType;
         }
 
-        public override AnimalType AnimalType
+        public AnimalType AnimalType
         {
             get
             {
@@ -22,6 +22,9 @@ namespace ZooKeeperWebApi.Models
         }
 
         public bool CanFly { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public Guid Id { get; set; }
         public bool IsPreditor { get; set; }
+        public string Name { get; set; }
     }
 }

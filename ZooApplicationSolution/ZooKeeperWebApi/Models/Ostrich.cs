@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using ZooKeeperWebApi.Enums;
+﻿using ZooKeeperWebApi.Enums;
 using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
 {
-    public class Ostrich : AnimalBase, IFlyable
+    public class Ostrich : Animal, IFlyable
     {
         public override AnimalType AnimalType
         {
@@ -14,14 +13,14 @@ namespace ZooKeeperWebApi.Models
             }
         }
 
-        [NotMapped]
-        bool IFlyable.CanFly
+        public bool CanFly
         {
             get
             {
                 return false;
             }
 
+            private set { }
         }
     }
 }

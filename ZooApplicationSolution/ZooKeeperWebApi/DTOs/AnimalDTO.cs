@@ -1,4 +1,5 @@
 ﻿using System;
+using ZooKeeperWebApi.Enums;
 using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.DTOs
@@ -8,5 +9,6 @@ namespace ZooKeeperWebApi.DTOs
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public AnimalType AnimalType { get; set; }
     }
 }
