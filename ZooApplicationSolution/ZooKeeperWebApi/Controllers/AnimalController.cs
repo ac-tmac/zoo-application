@@ -84,16 +84,14 @@ namespace ZooKeeperWebApi.Controllers
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
 
-            if (!this.respositry.Exists(id))
+            var animal = this.respositry.Get(id);
+
+            if (animal == null)
             {
                 return NotFound();
             }
 
             animalDTO.Id = id;
-
-            var animalClassifier = new AnimalProfile(AnimalType.Mammal);
-            var animalFactory = new AnimalFactory();
-            var animal = animalFactory.Get(animalClassifier);
             Map(animalDTO, animal);
 
             this.respositry.Update(animal);
