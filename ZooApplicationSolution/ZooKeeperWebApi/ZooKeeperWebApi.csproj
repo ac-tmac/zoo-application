@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AnimalController.cs" />
+    <Compile Include="Controllers\AnimalFamiliesController.cs" />
     <Compile Include="Controllers\AnimalsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -134,7 +135,7 @@
     <Compile Include="Interfaces\IAnimalDTO.cs" />
     <Compile Include="Models\AnimalProfile.cs" />
     <Compile Include="Models\Animal.cs" />
-    <Compile Include="DTOs\AnimalDTO.cs" />
+    <Compile Include="Models\AnimalDTO.cs" />
     <Compile Include="Enums\AnimalType.cs" />
     <Compile Include="Models\Elephant.cs" />
     <Compile Include="Models\Ostrich.cs" />

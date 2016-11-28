@@ -26,6 +26,10 @@
                 <input id="animal-form-name" name="animal-form-name" type="text" />
                 <label for="animal-form-date-of-birth">Date of Birth</label>
                 <input id="animal-form-date-of-birth" name="animal-form-date-of-birth" type="date" />
+                <div id="animal-form-family-holder">
+                    <label for="animal-form-family">Choose family</label>
+                    <select id="animal-form-family" name="animal-form-family"></select>
+                </div>
             </fieldset>
             <button type="button" id="animal-form-save-button">Save</button>
             <button type="button" id="animal-form-delete-button">Delete</button>
@@ -34,6 +38,8 @@
     <script type="text/javascript" src="Scripts/zookeeper.js"></script>
     <script type="text/javascript">
         var baseAddress = "http://localhost:59255/";
+
+        getFamilies(getFamiliesCallBack);
 
         displayAnimalsView();
 
