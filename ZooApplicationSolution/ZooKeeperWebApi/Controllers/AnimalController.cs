@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using ZooKeeperWebApi.Models;
-using ZooKeeperWebApi.DTOs;
+using ZooKeeperWebApi.Models;
 using ZooKeeperWebApi.Interfaces;
 using System.Net;
 using ZooKeeperWebApi.Enums;
@@ -57,6 +57,7 @@ namespace ZooKeeperWebApi.Controllers
             dto.Id = model.Id;
             dto.Name = model.Name;
             dto.DateOfBirth = model.DateOfBirth.Date;
+            dto.FamilyName = model.GetType().Name;
         }
 
         public IHttpActionResult Post(AnimalDTO animalDTO)
@@ -65,10 +66,9 @@ namespace ZooKeeperWebApi.Controllers
             {
                 return Content(HttpStatusCode.BadRequest, animalDTO);
             }
-
-            var animalClassifier = new AnimalProfile(AnimalType.Bird);
+            
             var animalFactory = new AnimalFactory();
-            var animal = animalFactory.Get(animalClassifier);
+            var animal = animalFactory.Get(animalDTO.FamilyName);
             Map(animalDTO, animal);
 
             animal.Id = Guid.NewGuid();
