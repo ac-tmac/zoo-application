@@ -1,5 +1,4 @@
 ﻿using System;
-using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Interfaces
 {
@@ -8,6 +7,6 @@ namespace ZooKeeperWebApi.Interfaces
         Guid? Id { get; set; }
         string Name { get; set; }
         DateTime DateOfBirth { get; set; }
-        AnimalType Type { get; }
+        string FamilyName { get; set; }
     }
 }
