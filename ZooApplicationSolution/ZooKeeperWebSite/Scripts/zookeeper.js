@@ -10,10 +10,10 @@
         dateofbirth: animalDateOfBirth
     };
 
-    var isNew = !animalId
+    var isNew = !animalId;
     if (isNew)
     {
-        animal.familyname = animalFamilyName
+        animal.familyname = animalFamilyName;
     }
 
     return animal;
@@ -83,7 +83,7 @@ function animalFormBind(animalModel) {
 
     var familyNameList = document.getElementById("animal-form-family");
     for (i = 0; i < familyNameList.options.length; i++) {
-        if (familyNameList.options[i].value == animalModel.FamilyName) {
+        if (familyNameList.options[i].value === animalModel.FamilyName) {
             familyNameList.options[i].selected = true;
             break;
         }
