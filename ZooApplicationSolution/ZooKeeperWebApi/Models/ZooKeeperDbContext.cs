@@ -1,15 +1,16 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
 {
-    public class ZooKeeperDbContext : DbContext
+    public class ZooKeeperDbContext : DbContext, IZooKeeperDbContext
     {
         public ZooKeeperDbContext() : base("name=DefaultConnection")
         {
         }
 
-        public DbSet<Animal> Animals { get; set; }
+        public IDbSet<Animal> Animals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

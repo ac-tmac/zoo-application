@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Interfaces
@@ -9,5 +10,6 @@ namespace ZooKeeperWebApi.Interfaces
         string Name { get; set; }
         DateTime DateOfBirth { get; set; }
         AnimalType Type { get; }
+        IEnumerable<IAnimalBehaviour> Behaviours { get; set; }
     }
 }

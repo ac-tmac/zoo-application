@@ -1,6 +1,7 @@
 ﻿using System;
 using ZooKeeperWebApi.Interfaces;
 using ZooKeeperWebApi.Enums;
+using System.Collections.Generic;
 
 namespace ZooKeeperWebApi.Models
 {
@@ -25,5 +26,7 @@ namespace ZooKeeperWebApi.Models
                 }
             }
         }
+
+        public virtual IEnumerable<IAnimalBehaviour> Behaviours { get; set; }
     }
 }

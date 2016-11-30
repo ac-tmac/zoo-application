@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ZooKeeperWebApi.Interfaces;
 
 namespace ZooKeeperWebApi.Models
@@ -8,7 +9,8 @@ namespace ZooKeeperWebApi.Models
         public IAnimal Get(string familyName)
         {
             var type = Type.GetType(string.Format("ZooKeeperWebApi.Models.{0}", familyName));
-            return (Animal)Activator.CreateInstance(type); 
+            var animal = (Animal)Activator.CreateInstance(type);
+            return animal;
         }
     }
 }
