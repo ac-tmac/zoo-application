@@ -59,7 +59,7 @@ function displayAddNewAnimalForm() {
     document.getElementById("animal-form-save-button").setAttribute("onclick", "createService().postAnimal(getAnimalFromForm(), postAnimalCallBack); return false;");
     document.getElementById("animal-form-view").style.visibility = 'visible';
     document.getElementById("animal-form-delete-button").style.visibility = 'hidden';
-    document.getElementById("animal-form-family-holder").style.visibility = "visible";
+    // document.getElementById("animal-form-family-holder").style.visibility = "visible";
 }
 
 function displayEditAnimalForm(animalModel) {
@@ -68,22 +68,22 @@ function displayEditAnimalForm(animalModel) {
     document.getElementById("animal-form-save-button").setAttribute("onclick", "createService().putAnimal(getAnimalFromForm(), putAnimalCallBack); return false;");
     document.getElementById("animal-form-view").style.visibility = 'visible';
     document.getElementById("animal-form-delete-button").style.visibility = 'visible';
-    document.getElementById("animal-form-family-holder").style.visibility = "hidden";
+    // document.getElementById("animal-form-family-holder").style.visibility = "hidden";
 }
 
 function animalFormBind(animalModel) {
-    animalFormReset();
-    document.getElementById("animal-form-id").value = animalModel.Id;
-    document.getElementById("animal-form-name").value = animalModel.Name;
-    document.getElementById("animal-form-date-of-birth").value = animalModel.DateOfBirth;
+    // animalFormReset();
+    // document.getElementById("animal-form-id").value = animalModel.Id;
+    // document.getElementById("animal-form-name").value = animalModel.Name;
+    // document.getElementById("animal-form-date-of-birth").value = animalModel.DateOfBirth;
 
-    var familyNameList = document.getElementById("animal-form-family");
-    for (i = 0; i < familyNameList.options.length; i++) {
-        if (familyNameList.options[i].value === animalModel.FamilyName) {
-            familyNameList.options[i].selected = true;
-            break;
-        }
-    }
+    //var familyNameList = document.getElementById("animal-form-family");
+    //for (i = 0; i < familyNameList.options.length; i++) {
+    //    if (familyNameList.options[i].value === animalModel.FamilyName) {
+    //        familyNameList.options[i].selected = true;
+    //        break;
+    //    }
+    //}
 }
 
 function getAnimalCallBack(responseText) {
@@ -127,7 +127,8 @@ function getFamiliesCallBack(responseText) {
     }
 }
 
-var createService = function () {
+
+var createService = function (scope, http) {
 
     var baseAddress = "http://localhost:59255/";
 
@@ -203,7 +204,9 @@ var createService = function () {
 
 (function () {
 
-    var animalsController = function (scope, http) {
+    var app = angular.module('zooKeeper', []);
+
+    var animalsController = function (rootScope, scope, http) {
         var baseAddress = "http://localhost:59255/";
 
         var onGetAnimalsComplete = function (response) {
@@ -216,19 +219,42 @@ var createService = function () {
         };
 
         scope.getAnimal = function (id) {
-            createService().getAnimal(id, getAnimalCallBack);
+            rootScope.$broadcast('getAnimal', id);
         };
 
         scope.getAnimals();
     };
 
-    var app = angular.module('zooKeeper', []);
-    app.controller('AnimalsController', ['$scope', '$http', animalsController]);
+    var animalController = function (rootScope, scope, http) {
+        var baseAddress = "http://localhost:59255/";
 
-    var service = createService();
-    service.getFamilies(getFamiliesCallBack);
+        var onGetAnimalComplete = function (response) {
+            scope.animal = response.data;
+            getAnimalFamilies();
+            displayEditAnimalForm(scope.animal);
+        };
 
-    // displayAnimalsView();
+        var onGetFamiliesComplete = function (response) {
+            scope.animalFamilies = response.data;
+        };
+
+        var getAnimal = function (id) {
+            http.get(baseAddress + "api/Animal/" + id)
+            .then(onGetAnimalComplete);
+        };
+
+        var getAnimalFamilies = function () {
+            http.get(baseAddress + "api/AnimalFamilies/")
+            .then(onGetFamiliesComplete);
+        };
+
+        rootScope.$on('getAnimal', function (event, id) {
+            getAnimal(id);
+        });
+    };
+
+    app.controller('AnimalsController', ['$rootScope', '$scope', '$http', animalsController]);
+    app.controller('AnimalController', ['$rootScope', '$scope', '$http', animalController]);
 
     initaliseAddNewButton();
     intialiseDeleteButton();
