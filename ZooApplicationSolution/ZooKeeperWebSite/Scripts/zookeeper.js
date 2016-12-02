@@ -18,12 +18,8 @@
         return animal;
     }
 
-    function refreshAnimalsView() {
-        createService().getAnimals(getAnimalsCallBack);
-    }
-
     function displayAnimalsView() {
-        refreshAnimalsView();
+        //refreshAnimalsView();
         document.getElementById("animals-view").style.visibility = 'visible';
     }
 
@@ -96,42 +92,21 @@
     }
 
     function postAnimalCallBack(responseText) {
-        refreshAnimalsView();
+        //refreshAnimalsView();
         displayAddNewAnimalForm();
         //var animalFormFeedback = document.getElementById("animal-form-feedback");
     }
 
     function putAnimalCallBack(responseText) {
-        refreshAnimalsView();
+        //refreshAnimalsView();
         refreshEditAnimalForm();
         //var animalFormFeedback = document.getElementById("animal-form-feedback");
     }
 
     function deleteAnimalCallBack(responseText) {
-        refreshAnimalsView();
+        //refreshAnimalsView();
         displayAddNewAnimalForm();
         //var animalFormFeedback = document.getElementById("animal-form-feedback");
-    }
-
-    function getAnimalsCallBack(responseText) {
-
-        var animalModels = JSON.parse(responseText);
-        var animalsList = document.getElementById("animals-list");
-        animalsList.innerHTML = "";
-
-        for (var i = 0; i < animalModels.length; i++) {
-            var animalModel = animalModels[i];
-
-            var link = document.createElement("a");
-            var linkText = document.createTextNode(animalModel.Name);
-            link.appendChild(linkText);
-            link.setAttribute("onclick", "createService().getAnimal('" + animalModel.Id + "', getAnimalCallBack); return false;");
-            link.href = "#";
-
-            var li = document.createElement("li");
-            li.appendChild(link);
-            animalsList.appendChild(li);
-        }
     }
 
     function getFamiliesCallBack(responseText) {
@@ -227,12 +202,34 @@
     };
 
 (function () {
-    
+
+    var animalsController = function (scope, http) {
+        var baseAddress = "http://localhost:59255/";
+
+
+        var onGetAnimalsComplete = function (response) {
+            scope.animals = response.data;
+        };
+
+        scope.getAnimals = function () {
+            http.get(baseAddress + "api/Animals/")
+            .then(onGetAnimalsComplete);
+        };
+
+        scope.getAnimal = function (id) {
+            createService().getAnimal(id, getAnimalCallBack);
+        };
+
+        scope.getAnimals();
+    };
+
+    var app = angular.module('zooKeeper', []);
+    app.controller('AnimalsController', ['$scope', '$http', animalsController]);
 
     var service = createService();
     service.getFamilies(getFamiliesCallBack);
 
-    displayAnimalsView();
+    // displayAnimalsView();
 
     initaliseAddNewButton();
     intialiseDeleteButton();
