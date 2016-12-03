@@ -10,7 +10,6 @@
     <div id="animals-view" ng-controller="AnimalsController">
         <h2>Animals</h2>
         <a href ng-click="createNewAnimal()">Create new animal</a>
-        <!--<ul id="animals-list"></ul>-->
         <ul id="animals-list">
             <li ng-repeat="animal in animals">
                 <a href ng-click="getAnimal(animal.Id)">{{animal.Name}}</a>
@@ -20,10 +19,6 @@
     </div>
     <div id="animal-form-view" ng-controller="AnimalController">
         <h2>Animal</h2>
-        <!--
-        <p id="animal-form-feedback">
-        </p>
-        -->
         <p>Example of Date of Birth format 2012-04-23T00:00:00</p>
         <form id="animal-form">
             <fieldset>
@@ -32,12 +27,11 @@
                 <input id="animal-form-name" name="animal-form-name" type="text" ng-model="animal.Name" />
                 <label for="animal-form-date-of-birth">Date of Birth</label>
                 <input id="animal-form-date-of-birth" name="animal-form-date-of-birth" type="text" ng-model="animal.DateOfBirth" />
-                    <label for="animal-form-family">Choose family</label>
-                    <select id="animal-form-family" name="animal-form-family" 
-                                ng-model="animal.FamilyName"
-                                ng-selected="animal.FamilyName == FamilyName.Name"
-                                ng-options="FamilyName.Name as FamilyName.Name for FamilyName in animalFamilies">
-                    </select>
+                <label for="animal-form-family">Choose family</label>
+                <select id="animal-form-family" name="animal-form-family"
+                        ng-model="animal.FamilyName"
+                        ng-selected="animal.FamilyName == FamilyName.Name"
+                        ng-options="FamilyName.Name as FamilyName.Name for FamilyName in animalFamilies"></select>
             </fieldset>
             <button type="button" id="animal-form-save-button" ng-click="saveAnimal()">Save</button>
             <button type="button" id="animal-form-delete-button" ng-click="deleteAnimal()">Delete</button>
