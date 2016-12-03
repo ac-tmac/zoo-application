@@ -9,7 +9,6 @@
     <h1>Zoo Application | Zoo Keeper</h1>
     <div id="animals-view" ng-controller="AnimalsController">
         <h2>Animals</h2>
-        <button type="button" id="animal-add-new-button">Add New</button>
         <a href ng-click="createNewAnimal()">Create new animal</a>
         <!--<ul id="animals-list"></ul>-->
         <ul id="animals-list">
@@ -40,8 +39,8 @@
                                 ng-options="FamilyName.Name as FamilyName.Name for FamilyName in animalFamilies">
                     </select>
             </fieldset>
-            <button type="button" id="animal-form-save-button">Save</button>
-            <button type="button" id="animal-form-delete-button">Delete</button>
+            <button type="button" id="animal-form-save-button" ng-click="saveAnimal()">Save</button>
+            <button type="button" id="animal-form-delete-button" ng-click="deleteAnimal()">Delete</button>
         </form>
     </div>
     <script src="Scripts/angular.min.js"></script>
