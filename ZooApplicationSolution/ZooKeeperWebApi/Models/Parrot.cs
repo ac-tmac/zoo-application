@@ -5,11 +5,11 @@ namespace ZooKeeperWebApi.Models
 {
     public class Parrot : Animal, IFlyable
     {
-        public override AnimalType Type
+        public override AnimalTypeEnum Type
         {
             get
             {
-                return AnimalType.Bird;
+                return AnimalTypeEnum.Bird;
             }
         }
 

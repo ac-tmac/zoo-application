@@ -8,7 +8,7 @@ namespace ZooKeeperWebApi.Controllers
 {
     public class AnimalsController : ApiController
     {
-        ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
+        ZooKeeperEntities zooKeeperDb = new ZooKeeperEntities();
 
         public IEnumerable<IAnimal> Get()
         {

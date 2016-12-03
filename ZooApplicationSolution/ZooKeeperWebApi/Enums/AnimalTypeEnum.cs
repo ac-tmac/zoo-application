@@ -1,6 +1,6 @@
 ﻿namespace ZooKeeperWebApi.Enums
 {
-    public enum AnimalType
+    public enum AnimalTypeEnum
     {
         Undefined,
         Bird,

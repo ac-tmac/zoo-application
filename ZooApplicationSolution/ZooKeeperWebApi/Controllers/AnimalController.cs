@@ -8,7 +8,7 @@ namespace ZooKeeperWebApi.Controllers
 {
     public class AnimalController : ApiController
     {
-        ZooKeeperDbContext zooKeeperDb = new ZooKeeperDbContext();
+        ZooKeeperEntities zooKeeperDb = new ZooKeeperEntities();
         private IAnimalRepository respositry;
 
         public AnimalController()

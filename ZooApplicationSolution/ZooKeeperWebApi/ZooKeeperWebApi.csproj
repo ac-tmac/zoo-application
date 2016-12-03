@@ -136,12 +136,14 @@
     <Compile Include="Interfaces\IAnimalDTO.cs" />
     <Compile Include="Models\Animal.cs" />
     <Compile Include="Models\AnimalDTO.cs" />
-    <Compile Include="Enums\AnimalType.cs" />
+    <Compile Include="Enums\AnimalTypeEnum.cs" />
+    <Compile Include="Models\AnimalType.cs" />
+    <Compile Include="Models\ZooKeeperEntitiesInitialiser.cs" />
     <Compile Include="Models\Elephant.cs" />
     <Compile Include="Models\Ostrich.cs" />
     <Compile Include="Models\Parrot.cs" />
     <Compile Include="Models\Tiger.cs" />
-    <Compile Include="Models\ZooKeeperDbContext.cs" />
+    <Compile Include="Models\ZooKeeperEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

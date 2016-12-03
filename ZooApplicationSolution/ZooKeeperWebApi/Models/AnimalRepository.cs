@@ -6,8 +6,8 @@ namespace ZooKeeperWebApi.Models
 {
     public class AnimalRepository : IAnimalRepository
     {
-        private ZooKeeperDbContext zooKeeperDb;
-        public AnimalRepository(ZooKeeperDbContext zooKeeperDb)
+        private ZooKeeperEntities zooKeeperDb;
+        public AnimalRepository(ZooKeeperEntities zooKeeperDb)
         {
             this.zooKeeperDb = zooKeeperDb;
         }

@@ -5,11 +5,11 @@ namespace ZooKeeperWebApi.Models
 {
     public class Tiger : Animal, IPreditor
     {
-        public override AnimalType Type
+        public override AnimalTypeEnum Type
         {
             get
             {
-                return AnimalType.Mammal;
+                return AnimalTypeEnum.Mammal;
             }
         }
 
