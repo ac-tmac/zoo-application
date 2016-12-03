@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
+using ZooKeeperWebApi.Interfaces;
 using ZooKeeperWebApi.Models;
 
 namespace ZooKeeperWebApi.Controllers
@@ -8,12 +10,24 @@ namespace ZooKeeperWebApi.Controllers
     {
         public IHttpActionResult Get()
         {
-            var familes = System.Reflection.Assembly.GetExecutingAssembly()
+            var animalFamilies = new List<IAnimalFamilyDTO>();
+            var familyNames = System.Reflection.Assembly.GetExecutingAssembly()
                             .GetTypes()
                             .Where(t => t.IsSubclassOf(typeof(Animal)) && !t.IsAbstract)
                             .Select(x => x.Name);
 
-            return Ok(familes);
+            foreach(var familyName in familyNames)
+            {
+                var animalFamily = new AnimalFamilyDTO
+                {
+                    Id = familyName,
+                    Name = familyName
+                };
+
+                animalFamilies.Add(animalFamily);
+            }
+
+            return Ok(animalFamilies);
         }
 
     }

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="zooKeeper">
 <head>
     <title>Zoo Application | Zoo Keeper</title>
     <meta charset="utf-8" />
@@ -7,12 +7,18 @@
 </head>
 <body>
     <h1>Zoo Application | Zoo Keeper</h1>
-    <div id="animals-view">
+    <div id="animals-view" ng-controller="AnimalsController">
         <h2>Animals</h2>
-        <button type="button" id="animal-add-new-button">Add New</button>
-        <ul id="animals-list"></ul>
+        <a href ng-click="createNewAnimal()">Create new animal</a>
+        <!--<ul id="animals-list"></ul>-->
+        <ul id="animals-list">
+            <li ng-repeat="animal in animals">
+                <a href ng-click="getAnimal(animal.Id)">{{animal.Name}}</a>
+            </li>
+        </ul>
+        <button ng-click="getAnimals()">Refresh animals</button>
     </div>
-    <div id="animal-form-view">
+    <div id="animal-form-view" ng-controller="AnimalController">
         <h2>Animal</h2>
         <!--
         <p id="animal-form-feedback">
@@ -21,31 +27,23 @@
         <p>Example of Date of Birth format 2012-04-23T00:00:00</p>
         <form id="animal-form">
             <fieldset>
-                <input type="hidden" id="animal-form-id" />
+                <input type="hidden" id="animal-form-id" ng-value="animal.Id" />
                 <label for="animal-form-name">Name</label>
-                <input id="animal-form-name" name="animal-form-name" type="text" />
+                <input id="animal-form-name" name="animal-form-name" type="text" ng-model="animal.Name" />
                 <label for="animal-form-date-of-birth">Date of Birth</label>
-                <input id="animal-form-date-of-birth" name="animal-form-date-of-birth" type="date" />
-                <div id="animal-form-family-holder">
+                <input id="animal-form-date-of-birth" name="animal-form-date-of-birth" type="text" ng-model="animal.DateOfBirth" />
                     <label for="animal-form-family">Choose family</label>
-                    <select id="animal-form-family" name="animal-form-family"></select>
-                </div>
+                    <select id="animal-form-family" name="animal-form-family" 
+                                ng-model="animal.FamilyName"
+                                ng-selected="animal.FamilyName == FamilyName.Name"
+                                ng-options="FamilyName.Name as FamilyName.Name for FamilyName in animalFamilies">
+                    </select>
             </fieldset>
-            <button type="button" id="animal-form-save-button">Save</button>
-            <button type="button" id="animal-form-delete-button">Delete</button>
+            <button type="button" id="animal-form-save-button" ng-click="saveAnimal()">Save</button>
+            <button type="button" id="animal-form-delete-button" ng-click="deleteAnimal()">Delete</button>
         </form>
     </div>
+    <script src="Scripts/angular.min.js"></script>
     <script type="text/javascript" src="Scripts/zookeeper.js"></script>
-    <script type="text/javascript">
-        var baseAddress = "http://localhost:59255/";
-
-        getFamilies(getFamiliesCallBack);
-
-        displayAnimalsView();
-
-        initaliseAddNewButton();
-        intialiseDeleteButton();
-
-    </script>
 </body>
 </html>
