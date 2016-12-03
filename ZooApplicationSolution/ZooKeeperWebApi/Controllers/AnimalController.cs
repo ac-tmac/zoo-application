@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Http;
 using ZooKeeperWebApi.Models;
 using ZooKeeperWebApi.Interfaces;
 using System.Net;
-using ZooKeeperWebApi.Enums;
 
 namespace ZooKeeperWebApi.Controllers
 {

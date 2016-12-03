@@ -129,6 +129,8 @@
     <Compile Include="Interfaces\IFlyable.cs" />
     <Compile Include="Interfaces\IPreditor.cs" />
     <Compile Include="Models\AnimalFactory.cs" />
+    <Compile Include="Interfaces\IAnimalFamilyDTO.cs" />
+    <Compile Include="Models\AnimalFamilyDTO.cs" />
     <Compile Include="Models\AnimalRepository.cs" />
     <Compile Include="Interfaces\IAnimal.cs" />
     <Compile Include="Interfaces\IAnimalDTO.cs" />

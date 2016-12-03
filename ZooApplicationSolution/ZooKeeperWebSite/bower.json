@@ -1,0 +1,11 @@
+{
+  "name": "zookeeperwebsite",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.5.9"
+  }
+}
